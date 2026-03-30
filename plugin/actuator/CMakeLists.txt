@@ -19,13 +19,32 @@ set(MUJOCO_ACTUATOR_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/../..
 set(MUJOCO_ACTUATOR_SRCS
     pid.cc
     pid.h
+    tsa.cc
+    tsa.h
     register.cc
+)
+
+add_compile_definitions(EIGEN_MPL2_ONLY)
+findorfetch(
+  USE_SYSTEM_PACKAGE
+  OFF
+  PACKAGE_NAME
+  Eigen3
+  LIBRARY_NAME
+  eigen
+  GIT_REPO
+  https://gitlab.com/libeigen/eigen
+  GIT_TAG
+  75bcd155c40cb48e647c87c3f29052360255bc9e
+  TARGETS
+  Eigen3::Eigen
+  EXCLUDE_FROM_ALL
 )
 
 add_library(actuator SHARED)
 target_sources(actuator PRIVATE ${MUJOCO_ACTUATOR_SRCS})
 target_include_directories(actuator PRIVATE ${MUJOCO_ACTUATOR_INCLUDE})
-target_link_libraries(actuator PRIVATE mujoco)
+target_link_libraries(actuator PRIVATE mujoco Eigen3::Eigen)
 target_compile_options(
   actuator
   PRIVATE ${AVX_COMPILE_OPTIONS}
