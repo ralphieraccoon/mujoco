@@ -227,8 +227,8 @@ void Tsa::ActDot(const mjModel* m, mjData* d, int instance) const {
 
     Eigen::Vector2d x_dot = A + B*ctrl;
 
-    d->act_dot[state_idx] = mju_clip(x_dot[0], -config.v_min, config.v_max);
-    d->act_dot[state_idx + 1] = mju_clip(x_dot[1], -config.a_min, config.a_max);
+    d->act_dot[state_idx] = mju_clip(x_dot[0], -config_.v_limit, config_.v_limit);
+    d->act_dot[state_idx + 1] = mju_clip(x_dot[1], -config_.a_limit, config_.a_limit);
 
   }
 }
@@ -266,7 +266,7 @@ Tsa::State Tsa::GetState(const mjModel* m, mjData* d, int actuator_idx) const {
 void Tsa::RegisterPlugin() {
   mjpPlugin plugin;
   mjp_defaultPlugin(&plugin);
-  plugin.name = "mujoco.pid";
+  plugin.name = "mujoco.tsa";
   plugin.capabilityflags |= mjPLUGIN_ACTUATOR;
 
   std::vector<const char*> attributes = {kAttrK_L, kAttrB, kAttrJ,

@@ -14,9 +14,11 @@
 
 #include <mujoco/mjplugin.h>
 #include "pid.h"
+#include "tsa.h"
 
 namespace mujoco::plugin::actuator {
 
-mjPLUGIN_LIB_INIT { Pid::RegisterPlugin(); }
+mjPLUGIN_LIB_INIT { Pid::RegisterPlugin();
+                    Tsa::RegisterPlugin(); }
 
 }  // namespace mujoco::plugin::actuator

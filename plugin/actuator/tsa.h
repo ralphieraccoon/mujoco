@@ -48,7 +48,7 @@ struct TsaConfig {
   static TsaConfig FromModel(const mjModel* m, int instance);
 };
 
-// An actuator plugin which implements configurable PID control.
+// An actuator plugin which implements a TSA.
 class Tsa {
  public:
   // Returns an instance of Tsa. The result can be null in case of
@@ -58,7 +58,7 @@ class Tsa {
   // Returns the number of state variables for the plugin instance
   static int StateSize(const mjModel* m, int instance);
 
-  // Resets the C++ Pid instance's state.
+  // Resets the C++ TSA instance's state.
   // plugin_state is a C array pointer into mjData->plugin_state, with a size
   // equal to the value returned from StateSize.
   void Reset(mjtNum* plugin_state);
