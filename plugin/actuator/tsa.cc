@@ -210,7 +210,7 @@ void Tsa::ActDot(const mjModel* m, mjData* d, int instance) const {
 
     int state_idx = m->actuator_actadr[actuator_idx];
 
-    Eigen::Vector2d A(d->act_dot[state_idx + 1], -(config_.K_L/config_.J)*Tsa_h_func(d->act[state_idx], config_)*Tsa_k_func(d->act[state_idx], d->actuator_length[state_idx], config_)-(config_.B/config_.J)*d->act_dot[state_idx + 1]); 
+    Eigen::Vector2d A(d->act[state_idx + 1], -(config_.K_L/config_.J)*Tsa_h_func(d->act[state_idx], config_)*Tsa_k_func(d->act[state_idx], d->actuator_length[state_idx], config_)-(config_.B/config_.J)*d->act[state_idx + 1]); 
     Eigen::Vector2d B(0, config_.K_t / config_.J);
     // if (config_.i_gain) {
     //   mjtNum integral = state.integral + error * m->opt.timestep;
@@ -240,7 +240,7 @@ void Tsa::Compute(const mjModel* m, mjData* d, int instance) {
     // State state = GetState(m, d, actuator_idx);
     // mjtNum ctrl =
     //     GetCtrl(m, d, actuator_idx, state, m->actuator_actearly[actuator_idx]);
-    d->actuator_force[actuator_idx] = mju_clip(config_.K_L*Tsa_k_func(d->act[state_idx], *d->actuator_length, config_), 0, std::numeric_limits<mjtNum>::infinity());
+    d->actuator_force[actuator_idx] = -mju_clip(config_.K_L*Tsa_k_func(d->act[state_idx], *d->actuator_length, config_), 0, std::numeric_limits<mjtNum>::infinity());
   }
 }
 
